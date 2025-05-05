@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cat Feeder Timer Calculator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fefefe;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    h2 {
+      text-align: center;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    #result {
+      text-align: center;
+      font-size: 18px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Cat Feeder Timer Calculator</h2>
+
+<label for="current">Current Time (24h format):</label>
+<input type="time" id="current">
+
+<label for="target">Feeder Open Time (24h format):</label>
+<input type="time" id="target">
+
+<button onclick="calculate()">Calculate Timer Hours</button>
+
+<div id="result"></div>
+
+<script>
+function calculate() {
+  const current = document.getElementById('current').value;
+  const target = document.getElementById('target').value;
+
+  if (!current || !target) {
+    document.getElementById('result').innerText = "Please select both times.";
+    return;
+  }
+
+  const [currentH, currentM] = current.split(':').map(Number);
+  const [targetH, targetM] = target.split(':').map(Number);
+
+  let currentTotal = currentH + currentM / 60;
+  let targetTotal = targetH + targetM / 60;
+
+  let diff = targetTotal - currentTotal;
+  if (diff <= 0) diff += 24;
+
+  const rounded = Math.round(diff);
+  document.getElementById('result').innerText =
+    `Set the timer to: ${rounded} hour(s)`;
+}
+</script>
+
+</body>
+</html>
